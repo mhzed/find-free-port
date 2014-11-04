@@ -3,6 +3,9 @@ find-free-port
 
 Find a free tcp port to listen locally.
 
+## Installation
+
+    npm install find-free-port
 
 ## Examples
 
