@@ -27,3 +27,9 @@ Find a free port to listen on, begin from 3000, stop at 3100, bound to ip 127.0.
     fp(3000, 3100, '127.0.0.1', function(err, freePort){
     });
     
+Find a free port to listen on, begin from 3000, bound to ip 127.0.0.1 only
+
+    var fp = require("find-free-port")
+    fp(3000, '127.0.0.1', function(err, freePort){
+    });
+    

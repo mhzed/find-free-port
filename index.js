@@ -9,8 +9,17 @@
     var beg, cb, end, ip, onprob, p, prob, _i;
     beg = arguments[0], p = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
     end = p[0], ip = p[1];
-    end || (end = 65534);
-    ip || (ip = '0.0.0.0');
+    if (!ip && end && !/^\d+$/.test(end)) {
+      ip = end;
+      end = 65534;
+    } else {
+      if (end == null) {
+        end = 65534;
+      }
+      if (ip == null) {
+        ip = '0.0.0.0';
+      }
+    }
     prob = function(ip, port, cb) {
       var s;
       s = net.createServer().listen(port, ip);
