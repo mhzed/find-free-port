@@ -1,7 +1,7 @@
 find-free-port
 --------
 
-Find a free tcp port to listen locally.
+Find free tcp port or ports to listen locally.
 
 ## Installation
 
@@ -33,3 +33,8 @@ Find a free port to listen on, begin from 3000, bound to ip 127.0.0.1 only
     fp(3000, '127.0.0.1', function(err, freePort){
     });
     
+Find a few free ports to listen on, begin from 3000, bound to ip 127.0.0.1 only
+
+    var fp = require("find-free-port")
+    fp(3000, 3100, '127.0.0.1', 3, function(err, p1, p2, p3){
+    });

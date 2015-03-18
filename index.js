@@ -6,9 +6,9 @@
   net = require("net");
 
   module.exports = function() {
-    var beg, cb, end, ip, onprob, p, prob, _i;
+    var beg, cb, cnt, end, ip, onprob, p, prob, res, retcb, _i;
     beg = arguments[0], p = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), cb = arguments[_i++];
-    end = p[0], ip = p[1];
+    end = p[0], ip = p[1], cnt = p[2];
     if (!ip && end && !/^\d+$/.test(end)) {
       ip = end;
       end = 65534;
@@ -20,6 +20,11 @@
         ip = '0.0.0.0';
       }
     }
+    if (cnt == null) {
+      cnt = 1;
+    }
+    retcb = cb;
+    res = [];
     prob = function(ip, port, cb) {
       var s;
       s = net.createServer().listen(port, ip);
@@ -33,10 +38,17 @@
     };
     onprob = function(port, nextPort) {
       if (port) {
-        return cb(null, port);
+        res.push(port);
+        if (res.length >= cnt) {
+          return retcb.apply(null, [null].concat(res));
+        } else {
+          return setImmediate(function() {
+            return prob(ip, port + 1, onprob);
+          });
+        }
       } else {
         if (nextPort >= end) {
-          return cb("No available ports");
+          return retcb(new Error("No available ports"));
         } else {
           return setImmediate(function() {
             return prob(ip, nextPort, onprob);

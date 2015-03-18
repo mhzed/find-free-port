@@ -20,7 +20,12 @@
         assert(port > port_base);
         return fp(port_base, port_base + 1, function(err, port) {
           assert(err !== null);
-          return s.close();
+          return fp(port_base, port_base + 10, '0.0.0.0', 2, function(err, port1, port2) {
+            assert(err === null);
+            assert(port1 > port_base);
+            assert(port2 > port_base);
+            return s.close();
+          });
         });
       });
     });

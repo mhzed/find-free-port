@@ -17,5 +17,12 @@ fp port_base, (err, port)->
       # test 3: end works
       fp port_base, port_base+1, (err, port)->
         assert (err != null)
-        s.close()
+
+        # test 4: find many ports
+        fp port_base, port_base+10, '0.0.0.0', 2, (err, port1, port2)->
+          assert (err == null)
+          assert port1> port_base
+          assert port2> port_base
+
+          s.close()
 
