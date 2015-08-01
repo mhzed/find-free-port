@@ -13,7 +13,6 @@ module.exports = (beg, p..., cb)->
     end = 65534
   else
     end ?= 65534
-    ip ?= '0.0.0.0'
   cnt ?= 1
 
   retcb = cb
