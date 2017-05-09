@@ -1,40 +1,66 @@
 find-free-port
 --------
 
-Find free tcp port or ports to listen locally.
+Find free TCP port or ports to listen locally on.
 
 ## Installation
 
-    npm install find-free-port
+```bash
+npm install find-free-port --save-dev
+```
 
 ## Examples
 
-Find a free port to listen on, begin from 3000
+### Single Free Port Search
 
-    var fp = require("find-free-port")
-    fp(3000, function(err, freePort){
-    });
+Find the first free port to listen on beginning from port `3000`.
+
+```js
+var fp = require("find-free-port");
+
+fp(3000, function(err, freePort) {
+    // do something with port...
+});
+```
     
-Find a free port to listen on, begin from 3000, but stop at 3100 (not including 3100)
+Find the first free port to listen on between ports `3000` and `3100` (not including port `3100`).
 
-    var fp = require("find-free-port")
-    fp(3000, 3100, function(err, freePort){
-    });
+```js
+var fp = require("find-free-port");
+
+fp(3000, 3100, function(err, freePort){
+    // do something with port...
+});
+```
     
-Find a free port to listen on, begin from 3000, stop at 3100, bound to ip 127.0.0.1 only
+Find the first free port to listen on between ports `3000` & `3100` and that are bound only to the ip `127.0.0.1`.
 
-    var fp = require("find-free-port")
-    fp(3000, 3100, '127.0.0.1', function(err, freePort){
-    });
-    
-Find a free port to listen on, begin from 3000, bound to ip 127.0.0.1 only
+```js
+var fp = require("find-free-port");
 
-    var fp = require("find-free-port")
-    fp(3000, '127.0.0.1', function(err, freePort){
-    });
-    
-Find a few free ports to listen on, begin from 3000, bound to ip 127.0.0.1 only
+fp(3000, 3100, "127.0.0.1", function(err, freePort){
+    // do something with port...
+});
+```
 
-    var fp = require("find-free-port")
-    fp(3000, 3100, '127.0.0.1', 3, function(err, p1, p2, p3){
-    });
+Find the first free port to listen on beginning from port `3000` and bound only to the ip `127.0.0.1`.
+
+```js
+var fp = require("find-free-port");
+
+fp(3000, "127.0.0.1", function(err, freePort){
+    // do something with port...
+});
+```
+
+### Multiple Free Port Search
+
+Find `n` amount of free ports to listen on. In this case, find the first `3` free ports between ports `3000` & `3100` and that are bound only to the ip `127.0.0.1`.
+
+```js
+var fp = require("find-free-port");
+
+fp(3000, 3100, "127.0.0.1", 3, function(err, p1, p2, p3){
+    // do something with ports...
+});
+```
