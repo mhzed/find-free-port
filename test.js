@@ -3,7 +3,7 @@ const fp = require("./index");
 const assert = require("assert");
 const net = require("net");
 
-const port_base = 3300;
+const port_base = 61342;
 
 // test 1: able to find a free port
 fp(port_base, function(err, port){
@@ -23,8 +23,13 @@ fp(port_base, function(err, port){
           assert((err === null));
           assert(port1> port_base);
           assert(port2> port_base);
+          s.close();
 
-          return s.close();
+          fp(port_base).then(([freep])=>{
+            assert(freep == port_base);
+          }).catch ((err)=>{
+            assert(false);
+          })
         });
       });
     })
