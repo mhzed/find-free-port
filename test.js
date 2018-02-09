@@ -30,7 +30,7 @@ describe('ndarray', function() {
     })
   })
   it('find many ports', function() {
-    return fp(port_listen, port_listen+10, '0.0.0.0', 2).then(([p1, p2])=> {
+    return fp(port_listen, port_listen+10, null, 2).then(([p1, p2])=> {
       assert(p1 > port_listen);
       assert(p2 > port_listen);
     });

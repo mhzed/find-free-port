@@ -14,7 +14,6 @@ function findFreePort(beg, ...rest){
     end = 65534;
   } else {
     if (end == null) { end = 65534; }
-    if (ip == null) { ip = '0.0.0.0'; }
   }
   if (cnt == null) { cnt = 1; }
 
