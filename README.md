@@ -1,7 +1,9 @@
 find-free-port
 --------
 
-Find free tcp port or ports to listen locally.
+Find free tcp port or ports to listen locally.  The definition of 'free' port is that calling nodejs api [server.listen(port, ip)](https://nodejs.org/api/net.html#net_server_listen) results in a 'listening' event instead of 'error' event'.
+
+This implies that it's legal to listen on both '0.0.0.0:12345' and '127.0.0.1:12345', and thus allowed by find-free-port.
 
 ## Installation
 ```bash
