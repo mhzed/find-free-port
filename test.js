@@ -6,7 +6,7 @@ const net = require("net");
 const port_base = 61342;
 let port_listen = 0;
 let server;
-describe('ndarray', function() {
+describe('find-free-port', function() {
   it('find and listen on port', function() {
     return fp(port_base).then(([p])=>{
       port_listen = p;
@@ -35,11 +35,6 @@ describe('ndarray', function() {
       assert(p2 > port_listen);
     });
   })
-  it('find with localhost', function(){
-    return fp(port_listen, '127.0.0.1').then(([p])=>{
-      assert(p == port_listen); // tcp stack allows this
-    })
-  });
 
   it('finish listen', function() {
     return new Promise((resolve, reject)=> {server.close(resolve);});
@@ -60,14 +55,8 @@ describe('ndarray', function() {
       assert(p > port_listen);
     })
   })
-  it('find single port', function() {
-    fp(port_listen, '0.0.0.0').then(([p])=>{
-      assert(p == port_listen); // again, tcp stack allows this
-    })
-  })
-
   it('finish listen', function() {
-    return new Promise((resolve, reject)=> {server.close(resolve);});
+    return new Promise((resolve, reject)=> { server.on('error', reject); server.close(resolve);});
   });
   
 })

@@ -1,6 +1,6 @@
 {
   "name": "find-free-port",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "find a free tcp port to listen locally",
   "main": "index.js",
   "scripts": {

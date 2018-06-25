@@ -20,9 +20,9 @@ function findFreePort(beg, ...rest){
   const retcb = cb;
   const res = [];
   const probe = function(ip, port, cb){
-    const s = net.createServer().listen(port, ip);
-    s.on('listening', function(){ s.close(); return cb(port); });
-    return s.on('error', err=> cb(null, port + 1));
+    const s = net.createConnection({port: port, host: ip})
+    s.on('connect', function(){ s.end(); cb(null, port + 1); });
+    s.on('error', err=> { cb(port); });  // can't connect, port is available
   };
   var onprobe = function(port, nextPort){
     if (port) {

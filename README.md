@@ -1,9 +1,7 @@
 find-free-port
 --------
 
-Find free tcp port or ports to listen locally.  The definition of 'free' port is that calling nodejs api [server.listen(port, ip)](https://nodejs.org/api/net.html#net_server_listen) results in a 'listening' event instead of 'error' event'.
-
-This implies that it's legal to listen on both '0.0.0.0:12345' and '127.0.0.1:12345', and thus allowed by find-free-port.
+Find free tcp port or pors to listen on.  The definition of 'free' port is that connecting to this port and host ('localhost' by default) will not succeed, and thus 'free'.
 
 ## Installation
 ```bash
@@ -15,35 +13,28 @@ npm install find-free-port --save
 Find a free port to listen on that is >= 3000
 ```js
 var fp = require("find-free-port")
-    fp(3000, function(err, freePort){
+fp(3000, function(err, freePort){
 });
 ```
     
 Find a free port to listen on that is >= 3000 and < 3100
 ```js
 var fp = require("find-free-port")
-    fp(3000, 3100, function(err, freePort){
+fp(3000, 3100, function(err, freePort){
 });
 ```
-    
-Find a free port to listen on that is >= 3000 and < 3100 and bound to ip 127.0.0.1
+            
+Find 3 free ports to listen on that is >= 3000 locally
 ```js
 var fp = require("find-free-port")
-    fp(3000, 3100, '127.0.0.1', function(err, freePort){
+fp(3000, 3100, '127.0.0.1', 3, function(err, p1, p2, p3){
 });
 ```
-    
-Find a free port to listen on that is >= 3000 and bound to ip 127.0.0.1
-```js
-var fp = require('find-free-port')
-    fp(3000, '127.0.0.1', function(err, freePort){
-});
-```
-    
-Find 3 free ports to listen on that is >= 3000 and bound to ip 127.0.0.1
+
+Find a free port that is >= 3000 and at host 192.168.100.1
 ```js
 var fp = require("find-free-port")
-    fp(3000, 3100, '127.0.0.1', 3, function(err, p1, p2, p3){
+fp(3000, "192.168.100.1", function(err, freePort){
 });
 ```
 
