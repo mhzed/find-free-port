@@ -5,6 +5,7 @@ const net = require("net");
 // call method 3: (portBeg, host, cb(err, freePort))
 // call method 4: (portBeg, portEnd, host, cb(err, freePort))
 // call method 5: (portBeg, portEnd, host, howmany, cb(err, freePort1, freePort2, ...))
+// call method 6: (portBeg, portEnd, host, howmany, exclude, cb(err, freePort1, freePort2, ...))
 
 function findFreePort(beg, ...rest){
   const p = rest.slice(0, rest.length - 1), cb = rest[rest.length - 1];
@@ -17,11 +18,25 @@ function findFreePort(beg, ...rest){
   }
   if (cnt == null) { cnt = 1; }
 
+  let exclude = p.find(arg => Array.isArray(arg) || (arg instanceof Set));
+  if (Array.isArray(exclude)) exclude = new Set(exclude);
+
   const retcb = cb;
   const res = [];
+  const getNextPort = function (port) {
+    if (exclude) {
+      let nextPort = port + 1;
+      while(nextPort < end && exclude.has(nextPort)) {
+        nextPort++;
+      }
+      return nextPort;
+    } else {
+      return port + 1;
+    }
+  };
   const probe = function(ip, port, cb){
     const s = net.createConnection({port: port, host: ip})
-    s.on('connect', function(){ s.end(); cb(null, port + 1); });
+    s.on('connect', function(){ s.end(); cb(null, getNextPort(port)); });
     s.on('error', err=> { cb(port); });  // can't connect, port is available
   };
   var onprobe = function(port, nextPort){
@@ -30,7 +45,7 @@ function findFreePort(beg, ...rest){
       if (res.length >= cnt) {
         retcb(null, ...res)
       } else {
-        setImmediate(()=> probe(ip, port+1, onprobe));
+        setImmediate(()=> probe(ip, getNextPort(port), onprobe));
       }
     } else {
       if (nextPort>=end) {
